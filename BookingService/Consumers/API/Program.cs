@@ -1,4 +1,13 @@
+using Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
+
+
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") 
+                       ?? throw new InvalidOperationException("Connection string not found");
+
+builder.Services.AddDbContext<HotelDbContext>(options => options.UseNpgsql(connectionString));
 
 // Add services to the container.
 
