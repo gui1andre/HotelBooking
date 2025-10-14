@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Data.Configuration
+namespace Data.Guest
 {
     public class GuestConfiguration : IEntityTypeConfiguration<Guest>
     {
