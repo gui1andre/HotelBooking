@@ -2,6 +2,7 @@
 using Application.Guest.Ports;
 using Application.Guest.Request;
 using Application.Guest.Responses;
+using Domain.Exceptions;
 using Domain.Ports;
 
 namespace Application
@@ -9,21 +10,53 @@ namespace Application
     public class GuestManager : IGuestManager
     {
         private readonly IGuestRepository _guestRepository;
+
         public GuestManager(IGuestRepository guestRepository)
         {
             _guestRepository = guestRepository;
         }
+
         public async Task<GuestResponse> CreateGuest(CreateGuestRequest request)
         {
             try
             {
                 var guest = GuestDTO.MapToEntity(request.Data);
-                request.Data.Id = await _guestRepository.Create(guest);
+
+                await guest.Save(_guestRepository);
+
+                request.Data.Id = guest.Id;
 
                 return new GuestResponse
                 {
                     Data = request.Data,
                     Sucess = true
+                };
+            }
+            catch (InvalidPersonDocumentIdException ex)
+            {
+                return new GuestResponse
+                {
+                    Sucess = false,
+                    Message = "The ID passed is not valid",
+                    ErrorCode = ErrorCodesEnum.INVALID_PERSON_ID
+                };
+            }
+            catch (InvalidEmailException ex)
+            {
+                return new GuestResponse
+                {
+                    Sucess = false,
+                    Message = "The given email is not valid",
+                    ErrorCode = ErrorCodesEnum.INVALID_EMAIL
+                };
+            }
+            catch (MissingRequiredInformationException ex)
+            {
+                return new GuestResponse
+                {
+                    Sucess = false,
+                    Message = "There was an error when saving to DB",
+                    ErrorCode = ErrorCodesEnum.MISSING_REQUIRED_DATA
                 };
             }
             catch (Exception ex)
@@ -32,8 +65,9 @@ namespace Application
                 {
                     Sucess = false,
                     Message = "There was an error when saving to DB",
-                    ErrorCode = ErrorCodesEnum.COUL_DNOT_STORE_DAT
+                    ErrorCode = ErrorCodesEnum.COULD_NOT_STORE_DATA
                 };
             }
         }
     }
+}

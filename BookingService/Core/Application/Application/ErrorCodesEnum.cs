@@ -9,6 +9,9 @@ namespace Application;
 public enum ErrorCodesEnum
 {
     NOT_FOUND = 1,
-    COUL_DNOT_STORE_DAT = 2
+    COULD_NOT_STORE_DATA = 2,
+    INVALID_PERSON_ID = 3,
+    INVALID_EMAIL = 4,
+    MISSING_REQUIRED_DATA = 5,
 }
 

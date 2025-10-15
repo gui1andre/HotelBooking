@@ -1,4 +1,8 @@
+using Application;
+using Application.Guest.Ports;
 using Data;
+using Data.Guest;
+using Domain.Ports;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +16,16 @@ builder.Services.AddDbContext<HotelDbContext>(options => options.UseNpgsql(conne
 // Add services to the container.
 
 builder.Services.AddControllers();
+
+#region IOC
+
+builder.Services.AddScoped<IGuestManager, GuestManager>();
+builder.Services.AddScoped<IGuestRepository, GuestRepository>();
+
+
+#endregion
+
+
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

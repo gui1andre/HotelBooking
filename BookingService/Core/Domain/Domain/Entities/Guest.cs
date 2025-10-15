@@ -1,3 +1,5 @@
+using Domain.Exceptions;
+using Domain.Ports;
 using Domain.ValueObjects;
 
 namespace Domain.Entities;
@@ -9,4 +11,37 @@ public class Guest
     public string Surname { get; set; }
     public string Email { get; set; }
     public PersonId DocumentId { get; set; }
+
+    private void ValidateState()
+    {
+        if (DocumentId == null ||
+            DocumentId.IdNumber.Length <= 3 ||
+            DocumentId.DocumentType == 0)
+        {
+            throw new InvalidPersonDocumentIdException();
+        }
+
+        if (!Utils.ValidateEmail(Email))
+            throw new InvalidEmailException();
+        
+        if(string.IsNullOrWhiteSpace(Name) || string.IsNullOrWhiteSpace(Surname) || string.IsNullOrWhiteSpace(Email))
+        {
+            throw new MissingRequiredInformationException();
+        }
+
+    }
+
+    public async Task Save(IGuestRepository guestRepository) 
+    {
+        ValidateState();
+
+        if(Id == 0)
+        {
+            Id = await guestRepository.Create(this);
+        }
+        else
+        {
+            await guestRepository.Update(this);
+        }
+    }
 }

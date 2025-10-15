@@ -1,5 +1,4 @@
 ﻿using Entities = Domain.Entities;
-using System;
 using Domain.Enums;
 
 namespace Application.Guest.DTO
