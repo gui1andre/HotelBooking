@@ -15,19 +15,20 @@ public class Guest
     private void ValidateState()
     {
         if (DocumentId == null ||
-            DocumentId.IdNumber.Length <= 3 ||
+            string.IsNullOrWhiteSpace(DocumentId.IdNumber) ||
+            DocumentId.IdNumber?.Length <= 3 ||
             DocumentId.DocumentType == 0)
         {
             throw new InvalidPersonDocumentIdException();
         }
-
-        if (!Utils.ValidateEmail(Email))
-            throw new InvalidEmailException();
         
         if(string.IsNullOrWhiteSpace(Name) || string.IsNullOrWhiteSpace(Surname) || string.IsNullOrWhiteSpace(Email))
         {
             throw new MissingRequiredInformationException();
         }
+        
+        if (!Utils.ValidateEmail(Email))
+            throw new InvalidEmailException();
 
     }
 

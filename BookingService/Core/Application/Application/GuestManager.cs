@@ -55,7 +55,7 @@ namespace Application
                 return new GuestResponse
                 {
                     Sucess = false,
-                    Message = "There was an error when saving to DB",
+                    Message = "Missing required fields",
                     ErrorCode = ErrorCodesEnum.MISSING_REQUIRED_DATA
                 };
             }
