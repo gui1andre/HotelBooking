@@ -13,5 +13,6 @@ public enum ErrorCodesEnum
     INVALID_PERSON_ID = 3,
     INVALID_EMAIL = 4,
     MISSING_REQUIRED_DATA = 5,
+    GUEST_NOT_FOUND = 6,
 }
 

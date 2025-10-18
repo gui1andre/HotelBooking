@@ -26,6 +26,6 @@ namespace Data.Guest
 
         public Task<Domain.Entities.Guest> GetByEmail(string email) => _context.Guests.FirstOrDefaultAsync(g => g.Email == email);
 
-        public Task<Domain.Entities.Guest> GetById(int id) => _context.Guests.FirstOrDefaultAsync(g => g.Id == id);
+        public Task<Domain.Entities.Guest?> GetById(int id) => _context.Guests.FirstOrDefaultAsync(g => g.Id == id);
     }
 }

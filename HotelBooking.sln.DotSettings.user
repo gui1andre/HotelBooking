@@ -2,11 +2,5 @@
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AServiceProvider_002Ecs_002Fl_003AC_0021_003FUsers_003Fgui1a_003FAppData_003FRoaming_003FJetBrains_003FRider2025_002E2_003Fresharper_002Dhost_003FSourcesCache_003Fce37be1a06b16c6faa02038d2cc477dd3bca5b217ceeb41c5f2ad45c1bf9_003FServiceProvider_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=3f6d265a_002De13b_002D4f3d_002Da862_002Db858861dec61/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="ShouldSetStatusToFinishedWhenFinishingAPaidBooking" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
-  &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::F2470EEF-1643-479A-9B29-A26F2C41C43B::net9.0::DomainTests.Bookings.Tests&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::8881E5EA-2407-427D-9B9F-944B7AB95699::net9.0::ApplicationTests.Tests.Test1&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::8881E5EA-2407-427D-9B9F-944B7AB95699::net9.0::ApplicationTests.Tests.ShouldReturnInvalidPersonDocumentIdExceptionWhenDocsAreInvalid&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::8881E5EA-2407-427D-9B9F-944B7AB95699::net9.0::ApplicationTests.Tests.ShouldReturnMissingRequiredInformationExceptionWhenDataAreInvalid&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::8881E5EA-2407-427D-9B9F-944B7AB95699::net9.0::ApplicationTests.Tests.ShouldReturnInvalidEmailExceptionWhenEmailAreInvalid&lt;/TestId&gt;&#xD;
-  &lt;/TestAncestor&gt;&#xD;
+  &lt;Solution /&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

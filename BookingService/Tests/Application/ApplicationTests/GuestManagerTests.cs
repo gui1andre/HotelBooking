@@ -18,6 +18,20 @@ public class Tests
         var fakeRepo = new Mock<IGuestRepository>();
         
         fakeRepo.Setup(x => x.Create(It.IsAny<Guest>())).Returns(Task.FromResult(1123));
+        fakeRepo.Setup(x => x.GetById(13)).Returns(Task.FromResult<Guest?>(new Guest
+        {
+            Id = 13,
+            Name = "GuestName",
+            Email = "GuestEmail",
+            DocumentId = new PersonId
+            {
+                DocumentType = DocumentType.DriveLicence,
+                IdNumber = "123123123"
+            }
+        }));
+        
+        fakeRepo.Setup(x => x.GetById(It.Is<int>(id => id != 13)))
+            .Returns(Task.FromResult<Guest?>(null));
         _guestManager = new GuestManager(fakeRepo.Object);
     }
 
@@ -124,5 +138,26 @@ public class Tests
         Assert.That(res.Sucess, Is.False);
         Assert.That(res.ErrorCode, Is.EqualTo(ErrorCodesEnum.INVALID_EMAIL));
         Assert.That(res.Message, Is.EqualTo("The given email is not valid"));
+    }
+
+    [Test]
+    public async Task ShoudReturnGuestNotFoundWhenGuestDoesntExist()
+    {
+        var res = await _guestManager.GetById(1);
+        
+        Assert.That(res, Is.Not.Null);
+        Assert.That(res.Sucess, Is.False);
+        Assert.That(res.ErrorCode, Is.EqualTo(ErrorCodesEnum.GUEST_NOT_FOUND));
+        Assert.That(res.Message, Is.EqualTo("No Guest record was found with the given id"));
+    }
+
+    [Test]
+    public async Task ShouldReturnGuestSucess()
+    {
+        var res = await _guestManager.GetById(13);
+        
+        Assert.That(res, Is.Not.Null);
+        Assert.That(res.Sucess, Is.True);
+        Assert.That(res.Data.Id, Is.EqualTo(13));
     }
 }
