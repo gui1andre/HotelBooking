@@ -1,3 +1,5 @@
+using Domain.Exceptions;
+using Domain.Ports;
 using Domain.ValueObjects;
 
 namespace Domain.Entities;
@@ -20,5 +22,21 @@ public class Room
     public bool HasGuest
     {
         get { return true; }
+    }
+
+    private void ValidateState()
+    {
+        if (string.IsNullOrEmpty(this.Name))
+            throw new InvalidRoomDataException();
+    }
+
+    public async Task Save(IRoomRepository repository)
+    {
+        ValidateState();
+
+        if (this.Id == 0)
+            this.Id = await repository.CreateRoom(this);
+        else
+            throw new NotImplementedException();
     }
 }

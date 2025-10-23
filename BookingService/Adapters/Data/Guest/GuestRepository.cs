@@ -15,7 +15,7 @@ namespace Data.Guest
         public async Task<int> Create(Entities.Guest guest)
         {
             _context.Guests.Add(guest);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return guest.Id;
         }
 
