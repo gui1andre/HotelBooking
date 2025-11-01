@@ -32,6 +32,8 @@ public class Guest
 
     }
 
+    public void IsValid() => this.ValidateState();
+
     public async Task Save(IGuestRepository guestRepository) 
     {
         ValidateState();

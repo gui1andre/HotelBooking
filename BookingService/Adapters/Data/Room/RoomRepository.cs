@@ -20,6 +20,8 @@ public class RoomRepository : IRoomRepository
 
     public Task<Domain.Entities.Room?> GetRoom(int roomId)
     {
-        return _context.Rooms.FirstOrDefaultAsync(x => x.Id == roomId);
+        return _context.Rooms
+            .Include(x => x.Bookings)
+            .FirstOrDefaultAsync(x => x.Id == roomId);
     }
 }

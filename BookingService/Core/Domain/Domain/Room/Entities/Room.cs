@@ -1,3 +1,4 @@
+using Domain.Enums;
 using Domain.Exceptions;
 using Domain.Ports;
 using Domain.ValueObjects;
@@ -11,6 +12,7 @@ public class Room
     public int Level { get; set; }
     public bool InMaintenance { get; set; }
     public Price Price { get; set; }
+    public ICollection<Booking> Bookings { get; set; }
     public bool IsAvailable
     {
         get
@@ -21,7 +23,37 @@ public class Room
 
     public bool HasGuest
     {
-        get { return true; }
+        get
+        {
+            var notAvailableStatus = new List<StatusEnum>()
+            {
+                StatusEnum.Created,
+                StatusEnum.Paid
+            };
+
+            return this.Bookings?.Where(b => b.Room.Id == this.Id &&
+                                             notAvailableStatus.Contains(b.Status)).Any() ?? false;
+        }
+    }
+    
+    public bool CanBeBooked()
+    {
+        try
+        {
+            this.ValidateState();
+        }
+        catch (Exception)
+        {
+
+            return false;
+        }
+
+        if (!this.IsAvailable)
+        {
+            return false;
+        }
+
+        return true;
     }
 
     private void ValidateState()
@@ -29,6 +61,8 @@ public class Room
         if (string.IsNullOrEmpty(this.Name))
             throw new InvalidRoomDataException();
     }
+
+    public void IsValid() => this.ValidateState();
 
     public async Task Save(IRoomRepository repository)
     {
