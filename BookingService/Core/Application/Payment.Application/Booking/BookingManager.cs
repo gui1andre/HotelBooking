@@ -2,6 +2,8 @@ using Application.Booking.DTO;
 using Application.Booking.Ports;
 using Application.Booking.Request;
 using Application.Booking.Responses;
+using Application.Payment.Ports;
+using Application.Payment.Responses;
 using Domain.Booking.Exceptions;
 using Domain.Booking.Ports;
 using Domain.Exceptions;
@@ -14,15 +16,18 @@ public class BookingManager : IBookingManager
     private readonly IBookingRepository  _bookingRepository;
     private readonly IRoomRepository  _roomRepository;
     private readonly IGuestRepository  _guestRepository;
+    private  readonly IPaymentProcessorFactory _paymentProcessorFactory;
 
     public BookingManager(
         IBookingRepository bookingRepository,
         IRoomRepository roomRepository,
-        IGuestRepository guestRepository)
+        IGuestRepository guestRepository,
+        IPaymentProcessorFactory paymentProcessorFactory)
     {
         _bookingRepository = bookingRepository;
         _roomRepository = roomRepository;
         _guestRepository = guestRepository;
+        _paymentProcessorFactory = paymentProcessorFactory;
     }
     
     public async Task<BookingResponse> Create(CreateBookingRequest request)
@@ -136,5 +141,25 @@ public class BookingManager : IBookingManager
             throw;
         }
 
+    }
+
+    public async Task<PaymentResponse> PayForABooking(PaymentRequestDTO paymentRequestDto)
+    {
+        
+        var paymentProcessor = _paymentProcessorFactory.GetPaymentProcessor(paymentRequestDto.SelectedPaymentProvider);
+            
+        var response = await paymentProcessor.CapturePayment(paymentRequestDto.PaymentIntention);
+
+        if (response.Sucess)
+        {
+            return new PaymentResponse
+            {
+                Sucess = true,
+                Data = response.Data,
+                Message = "Payment successfully processed"
+            };
+        }
+
+        return response;
     }
 }

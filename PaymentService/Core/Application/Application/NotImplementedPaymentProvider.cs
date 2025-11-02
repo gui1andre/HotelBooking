@@ -1,0 +1,19 @@
+using Application.Payment.Ports;
+using Application.Payment.Responses;
+
+namespace Application;
+
+public class NotImplementedPaymentProvider : IPaymentProcessor
+{
+    public Task<PaymentResponse> CapturePayment(string paymentIntention)
+    {
+        var paymentResponse = new PaymentResponse() 
+        { 
+            Sucess = false,
+            ErrorCode = ErrorCodesEnum.PAYMENT_PROVIDER_NOT_IMPLEMENTED,
+            Message = "The selected payment provider is not available at the moment"
+        };
+
+        return Task.FromResult(paymentResponse);
+    }
+}

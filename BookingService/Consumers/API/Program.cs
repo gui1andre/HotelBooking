@@ -1,7 +1,9 @@
+using System.Text.Json.Serialization;
 using Application;
 using Application.Booking;
 using Application.Booking.Ports;
 using Application.Guest.Ports;
+using Application.Payment.Ports;
 using Application.Room;
 using Application.Room.Ports;
 using Data;
@@ -36,12 +38,17 @@ builder.Services.AddScoped<IRoomRepository, RoomRepository>();
 builder.Services.AddScoped<IBookingRepository, BookingRepository>();
 builder.Services.AddScoped<IBookingManager, BookingManager>();
 
+builder.Services.AddScoped<IPaymentProcessorFactory, PaymentProcessorFactory>();
+
 #endregion
 
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddControllersWithViews()
+    .AddJsonOptions(options =>
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
